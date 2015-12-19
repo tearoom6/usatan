@@ -56,7 +56,7 @@ module Lita
               return "それ知ってる！#{meaning}、でしょ？！"
             end
           end
-          ask(words.sample)
+          return ask(words.sample)
         end
         ['うん？', 'へっ？', 'ふーん', 'そなんだー'].sample
       end
