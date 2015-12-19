@@ -1,7 +1,7 @@
 module Lita
   module Handlers
     class Healthcheck < Handler
-      http.get "/healthcheck", :health_check
+      http.get "/healthcheck/*", :health_check
       def health_check(request, response)
         response.body << 'OK'
       end
