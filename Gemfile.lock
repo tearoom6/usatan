@@ -60,6 +60,7 @@ DEPENDENCIES
   lita
   lita-slack
   lita-usatan!
+  redis
 
 BUNDLED WITH
    1.11.2
