@@ -9,7 +9,6 @@ Lita.configure do |config|
 
   # lita-keepalive handler
   config.handlers.keepalive.url = ENV['KEEPALIVE_URL']
-  config.handlers.keepalive.minutes = 20
 
   # usatan handler
   config.handlers.usatan.dictionary.path = "naist-jdic"
