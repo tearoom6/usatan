@@ -7,9 +7,6 @@ module Lita
       config :dictionary do
         config :path, type: String, required: true
       end
-      config :bot do
-        config :name, type: String, required: true
-      end
 
       class Word
         attr_reader :body, :type
@@ -159,7 +156,6 @@ module Lita
       def make_response(response)
         return if response.message.body == 'wakeup'
 
-        @name = config.bot.name
         @dictionary_path = config.dictionary.path
         @brain = Brain.new(Lita.redis)
         hear(response.room, response.user, response.message, response)
@@ -167,7 +163,6 @@ module Lita
 
       route(/^wakeup$/, :trigger_conscious, help: { 'wakeup' => 'trigger conscious.' })
       def trigger_conscious(response)
-        @name = config.bot.name
         @dictionary_path = config.dictionary.path
         @brain = Brain.new(Lita.redis)
         every(600) do |timer|
@@ -190,7 +185,7 @@ module Lita
           Word.parse(sentence, @dictionary_path).select{|word| word.is_bone_word? }.map{|word| word.body }
         end.flatten
 
-        if is_direct_message?(message)
+        if is_direct_message?(message, response)
           log << "detect direct message. (#{message.body})"
           # rfu words
           input_rfu_words(bone_words)
@@ -244,11 +239,11 @@ module Lita
       end
 
       def is_own_message?(user)
-        user.name == @name
+        user.name == robot.name
       end
 
-      def is_direct_message?(message)
-        message.private_message?
+      def is_direct_message?(message, response)
+        message.private_message? || response.matches[0][0].include?(robot.name)
       end
 
       def is_too_long_message?(message)
