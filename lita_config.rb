@@ -13,4 +13,5 @@ Lita.configure do |config|
 
   # usatan handler
   config.handlers.usatan.dictionary.path = "naist-jdic"
+  config.handlers.usatan.bot.name = "usatan"
 end
