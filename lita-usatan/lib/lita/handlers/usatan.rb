@@ -265,7 +265,7 @@ module Lita
 
       def input_chain_words(sentences)
         sentences.each do |sentence|
-          words = Word.parse(sentence, @dictionary_path).map{|word| word.body }
+          words = Word.parse(sentence, @dictionary_path).select{|word| word.is_bone_word? }.map{|word| word.body }
           words.push(SENTENCE_END_MARK)
           prev_word = nil
           words.each do |word|
@@ -285,7 +285,7 @@ module Lita
       def compose_sentence(seed_word)
         sentence = seed_word
         while (chain_word = @brain.remember_chain_word(seed_word))
-          sentence += chain_word
+          sentence += " #{chain_word}"
           seed_word = chain_word
         end
         sentence
