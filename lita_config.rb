@@ -8,6 +8,12 @@ Lita.configure do |config|
   # options for the Redis connection.
   config.redis[:url] = ENV['REDIS_URL']
 
+  # lita-twitter
+  config.adapters.twitter.api_key             = ENV['LITA_TWITTER_API_KEY']
+  config.adapters.twitter.api_secret          = ENV['LITA_TWITTER_API_SECRET']
+  config.adapters.twitter.access_token        = ENV['LITA_TWITTER_ACCESS_TOKEN']
+  config.adapters.twitter.access_token_secret = ENV['LITA_TWITTER_ACCESS_TOKEN_SECRET']
+
   # lita-keepalive handler
   config.handlers.keepalive.url = ENV['KEEPALIVE_URL']
 
