@@ -154,20 +154,18 @@ module Lita
 
       route(/^(.+)/, :make_response, help: { 'SOMETHING' => 'speak to usatan!!!' })
       def make_response(response)
-        return if response.message.body == 'wakeup'
-
         @dictionary_path = config.dictionary.path
         @brain = Brain.new(Lita.redis)
         hear(response.room, response.user, response.message, response)
       end
 
-      route(/^wakeup$/, :trigger_conscious, help: { 'wakeup' => 'trigger conscious.' })
-      def trigger_conscious(response)
+      http.get "/wakeup", :trigger_conscious
+      def trigger_conscious(request, response)
         @dictionary_path = config.dictionary.path
         @brain = Brain.new(Lita.redis)
         every(600) do |timer|
           forget
-          if rand > 0.99
+          if rand > 0.95
             speak('general')
           end
         end
@@ -239,11 +237,11 @@ module Lita
       end
 
       def is_own_message?(user)
-        user.name == robot.name
+        user.name == robot.mention_name
       end
 
       def is_direct_message?(message, response)
-        message.private_message? || response.matches[0][0].include?(robot.name)
+        message.command?
       end
 
       def is_too_long_message?(message)
