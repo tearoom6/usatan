@@ -8,4 +8,5 @@ gem "lita-keepalive"
 gem "redis"
 gem "lita-usatan", path: "lita-usatan"
 gem "lita-healthcheck", path: "lita-healthcheck"
+gem "okura"
 
